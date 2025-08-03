@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { TextField, Typography, IconButton } from '@mui/material';
 import { Send, SentimentSatisfied } from '@mui/icons-material';
 import { CommentContext } from '../context/CommentContext';
@@ -6,6 +6,7 @@ import Picker from 'emoji-picker-react';
 import { styled } from '@mui/system';
 
 const FormContainer = styled('div')(({ theme }) => ({
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1),
@@ -16,6 +17,13 @@ const AvatarStyled = styled('div')(({ theme }) => ({
   marginRight: theme.spacing(1),
 }));
 
+const PickerContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 1,
+  left: 0,
+  top: '50px'
+}));
+
 interface CommentFormProps {
   onSubmit?: (newComment: { text: string }) => void;
 }
@@ -24,7 +32,10 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit: parentOnSubmit }) =
   const { onSubmit, currentUser } = useContext(CommentContext);
   const [text, setText] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  
   const inputRef = useRef<HTMLInputElement>(null);
+  const pickerIconRef = useRef<HTMLInputElement>(null);
+  const pickerContainerRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,13 +45,29 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit: parentOnSubmit }) =
     setText('');
   };
 
-  const onEmojiClick = (event: React.MouseEvent, emojiObject: { emoji: string }) => {
+  const onEmojiClick = (emojiData: any, event: MouseEvent) => {
     const cursor = inputRef.current?.selectionStart || 0;
-    const newText = text.slice(0, cursor) + emojiObject.emoji + text.slice(cursor);
+    const newText = text.slice(0, cursor) + emojiData.emoji + text.slice(cursor);
     setText(newText);
-    setShowEmojiPicker(false);
     setTimeout(() => inputRef.current?.focus(), 0);
   };
+
+  const handleClickOutside = (event: any) => {
+    if (
+      (pickerIconRef.current && !pickerIconRef.current.contains(event.target)) &&
+      (pickerContainerRef.current && !pickerContainerRef.current.contains(event.target)) && 
+      (inputRef.current && !inputRef.current.contains(event.target))
+    ) {
+      setShowEmojiPicker(false);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   if (!currentUser) {
     return <Typography>Please log in to comment.</Typography>;
@@ -57,7 +84,6 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit: parentOnSubmit }) =
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Write a comment..."
-        inputProps={{ inputMode: 'text' }}
         inputRef={inputRef}
         sx={{
           '& .MuiInput-root': {
@@ -77,17 +103,19 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit: parentOnSubmit }) =
       >
         <Send />
       </IconButton>
-      <IconButton
-        color="primary"
-        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-        aria-label="emoji"
-      >
-        <SentimentSatisfied />
-      </IconButton>
+      <div ref={pickerIconRef}>
+        <IconButton
+          color="primary"
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+          aria-label="emoji"
+        >
+          <SentimentSatisfied />
+        </IconButton>
+      </div>
       {showEmojiPicker && (
-        <div style={{ position: 'absolute', zIndex: 1, marginTop: '40px' }}>
-          {/* <Picker onEmojiClick={onEmojiClick} /> */}
-        </div>
+        <PickerContainer ref={pickerContainerRef}>
+          <Picker onEmojiClick={onEmojiClick} />
+        </PickerContainer>
       )}
     </FormContainer>
   );
