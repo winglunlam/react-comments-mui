@@ -10,7 +10,7 @@ const App = () => {
     {
       id: '1',
       username: 'Alan Lam',
-      avatarUrl: 'https://ui-avatars.com/api/name=Alan&background=random',
+      avatarUrl: 'https://ui-avatars.com/api/name=Alan&background=FFFF00',
       timestamp: '2 hours ago',
       text: 'Great video!',
       likes: 5,
@@ -21,7 +21,7 @@ const App = () => {
         {
           id: '2',
           username: 'Yasmine',
-          avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=random',
+          avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=00FF00',
           timestamp: 'Just now',
           text: 'Thanks for the comment! 🎉',
           likes: 0,
@@ -33,7 +33,7 @@ const App = () => {
         {
           id: '3',
           username: 'Yasmine',
-          avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=random',
+          avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=00FF00',
           timestamp: 'Just now',
           text: 'Great! 🎉',
           likes: 0,
@@ -50,7 +50,7 @@ const App = () => {
     const comment = {
       id: Date.now().toString(),
       username: 'Yasmine',
-      avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=random',
+      avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=00FF00',
       timestamp: 'Just now',
       text: newComment.text,
       likes: 0,
@@ -101,7 +101,7 @@ const App = () => {
         onSubmit={handleSubmit}
         onLike={handleLike}
         onDislike={handleDislike}
-        currentUser={{ username: 'Yasmine', avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=random' }}
+        currentUser={{ username: 'Yasmine', avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=00FF00' }}
         hasMore={false}
       />
     </ThemeProvider>

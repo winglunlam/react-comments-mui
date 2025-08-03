@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Avatar, Button, IconButton, Typography, Paper } from '@mui/material';
 import { ThumbUp, Reply } from '@mui/icons-material';
 import { CommentContext } from '../context/CommentContext';
@@ -42,12 +42,27 @@ const Actions = styled('div')(({ theme }) => ({
 interface CommentProps {
   comment: CommentType;
   isReply?: boolean;
+  setReplyRef?: (ref: React.RefObject<HTMLDivElement>) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment, isReply = false }) => {
+const Comment: React.FC<CommentProps> = ({ 
+  comment,
+  isReply = false,
+  setReplyRef = () => {},
+}) => {
   const { onSubmit, onLike, currentUser } = useContext(CommentContext);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+
+  const parentContainerRef = useRef<React.RefObject<HTMLDivElement>>(null) as any;
+  const avatarWrapperRef = useRef<React.RefObject<HTMLDivElement>>(null) as any;
+  const avatarRef = useRef<React.RefObject<HTMLDivElement>>(null) as any;
+
+  useEffect(() => {
+    if (isReply && setReplyRef && avatarRef.current) {
+      setReplyRef(avatarRef);
+    }
+  }, [isReply, setReplyRef]);
 
   const handleReplySubmit = (newComment: { text: string }) => {
     onSubmit(newComment, comment.id);
@@ -55,9 +70,9 @@ const Comment: React.FC<CommentProps> = ({ comment, isReply = false }) => {
   };
 
   return (
-    <CommentContainer className="comment-container">
-      <AvatarWrapper className={isReply ? 'reply-avatar-wrapper' : 'avatar-wrapper'}>
-        <AvatarStyled src={comment.avatarUrl} className='avatar'/>
+    <CommentContainer ref={parentContainerRef} className="comment-container">
+      <AvatarWrapper ref={avatarWrapperRef} className={isReply ? 'reply-avatar-wrapper' : 'avatar-wrapper'}>
+        <AvatarStyled ref={avatarRef} src={comment.avatarUrl} className='avatar'/>
       </AvatarWrapper>
       <div>
         <CommentCard>
@@ -82,12 +97,21 @@ const Comment: React.FC<CommentProps> = ({ comment, isReply = false }) => {
         </Actions>
         {showReplyForm && <CommentForm onSubmit={handleReplySubmit} />}
         {comment.replies && comment.replies.length > 0 && (
-          <>
+          <React.Fragment>
             <Button onClick={() => setShowReplies(!showReplies)}>
               {showReplies ? 'Hide replies' : `View ${comment.replies.length} replies`}
             </Button>
-            {showReplies && <CommentList comments={comment.replies} parentAvatarUrl={comment.avatarUrl} showReplyForm={showReplyForm} isReply={true} />}
-          </>
+            {showReplies && 
+              <CommentList
+                comments={comment.replies}
+                parentAvatarUrl={comment.avatarUrl}
+                showReplyForm={showReplyForm}
+                isReply={true}
+                parentContainerRef={parentContainerRef}
+                parentAvatarWrapperRef={avatarWrapperRef}
+                parentAvatarRef={avatarRef}
+              />}
+          </React.Fragment>
         )}
       </div>
     </CommentContainer>
