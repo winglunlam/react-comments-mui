@@ -70,12 +70,15 @@ const CommentList: React.FC<CommentListProps> = ({
   
         const controlX1 = startX;
         const controlY1 = endY - 10;
+
+        const arcEndX = startX + 10;
+        const arcEndY = endY;
   
-        const rx = 30;
-        const ry = 30;
+        const rx = 10;
+        const ry = 10;
   
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', `M ${startX} ${startY} L ${controlX1} ${controlY1} A ${rx} ${ry} 0 0 0 ${endX} ${endY}`);
+        path.setAttribute('d', `M ${startX},${startY} L ${controlX1},${controlY1} A ${rx} ${ry} 0 0 0 ${arcEndX},${arcEndY} L ${endX},${endY}`);
         path.setAttribute('fill', 'none');
         path.setAttribute('stroke', '#B0B0B0');
         path.setAttribute('stroke-width', '2');
