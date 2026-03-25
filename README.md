@@ -1,6 +1,6 @@
 # react-comments-mui
 
-A modern, customizable comment section component for React using Material-UI (MUI). Perfect for YouTube-style comment sections with nested replies, like/dislike functionality, and relative timestamps.
+A modern, customizable comment section component for React using Material-UI (MUI). Perfect for YouTube-style comment sections with nested replies, like functionality, and relative timestamps.
 
 ## Installation
 
@@ -55,9 +55,7 @@ export const App = () => {
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
       text: 'Great video!',
       likes: 5,
-      dislikes: 1,
       currentUserLiked: false,
-      currentUserDisliked: false,
       replies: [],
     },
   ]);
@@ -68,9 +66,7 @@ export const App = () => {
       timestamp: new Date(),
       text: newComment.text,
       likes: 0,
-      dislikes: 0,
       currentUserLiked: false,
-      currentUserDisliked: false,
       replies: [],
     };
 
@@ -140,9 +136,7 @@ interface Comment {
   timestamp: Date;                 // When the comment was posted (Date object)
   text: string;                    // Comment text content
   likes: number;                   // Number of likes
-  dislikes: number;                // Number of dislikes
   currentUserLiked: boolean;        // Whether current user liked this comment
-  currentUserDisliked: boolean;     // Whether current user disliked this comment
   replies: Comment[];              // Nested replies (same structure as Comment)
 }
 ```
@@ -293,11 +287,11 @@ The plugin supports unlimited reply nesting:
 - Replies can be collapsed/expanded with the "View X replies" button
 - Perfect for threaded discussions
 
-### Like/Dislike System
+### Like System
 
 Each comment maintains vote counts:
-- `likes` and `dislikes` show the current vote counts
-- `currentUserLiked` and `currentUserDisliked` flags highlight the user's vote
+- `likes` show the current vote counts
+- `currentUserLiked` flags highlight the user's vote
 - Clicking the buttons toggles the vote state via the `onLike` callbacks
 
 ### Emoji Picker

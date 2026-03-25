@@ -5,9 +5,7 @@ export interface Comment {
   timestamp: Date;
   text: string;
   likes: number;
-  dislikes: number;
   currentUserLiked: boolean;
-  currentUserDisliked: boolean;
   replies: Comment[];
 }
 

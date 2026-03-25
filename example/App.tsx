@@ -37,9 +37,7 @@ const App = () => {
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
       text: 'Great video!',
       likes: 5,
-      dislikes: 1,
       currentUserLiked: false,
-      currentUserDisliked: false,
       replies: [
         {
           id: '2',
@@ -48,9 +46,7 @@ const App = () => {
           timestamp: new Date(Date.now() - 5 * 60 * 1000),
           text: 'Thanks for the comment! 🎉',
           likes: 0,
-          dislikes: 0,
           currentUserLiked: false,
-          currentUserDisliked: false,
           replies: [],
         },
         {
@@ -60,9 +56,7 @@ const App = () => {
           timestamp: new Date(),
           text: 'Great! 🎉',
           likes: 0,
-          dislikes: 0,
           currentUserLiked: false,
-          currentUserDisliked: false,
           replies: [],
         }
       ],
@@ -75,9 +69,7 @@ const App = () => {
       timestamp: new Date(),
       text: newComment.text,
       likes: 0,
-      dislikes: 0,
       currentUserLiked: false,
-      currentUserDisliked: false,
       replies: [],
     };
 
