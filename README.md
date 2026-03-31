@@ -20,6 +20,12 @@ npm install react-comments-mui
 
 ---
 
+## Demo
+
+[https://winglunlam.github.io/react-comments-mui/](https://winglunlam.github.io/react-comments-mui/)
+
+---
+
 ## Showcase
 
 - **Default Light Theme** - Standard appearance with light background
