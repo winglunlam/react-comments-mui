@@ -41,5 +41,5 @@ module.exports = {
     '@emotion/styled': '@emotion/styled',
     'emoji-picker-react': 'emoji-picker-react'
   },
-  devtool: 'source-map',
+  devtool: false,
 };
