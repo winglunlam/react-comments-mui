@@ -56,13 +56,34 @@ export const App = () => {
   const [comments, setComments] = useState([
     {
       id: '1',
-      username: 'John Doe',
-      avatarUrl: 'https://ui-avatars.com/api/name=John&background=random',
+      username: 'Alan Lam',
+      avatarUrl: 'https://ui-avatars.com/api/name=Alan&background=FFFF00',
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
       text: 'Great video!',
       likes: 5,
       currentUserLiked: false,
-      replies: [],
+      replies: [
+        {
+          id: '2',
+          username: 'Yasmine',
+          avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=00FF00',
+          timestamp: new Date(Date.now() - 5 * 60 * 1000),
+          text: 'Thanks for the comment! 🎉',
+          likes: 0,
+          currentUserLiked: false,
+          replies: [],
+        },
+        {
+          id: '3',
+          username: 'Yasmine',
+          avatarUrl: 'https://ui-avatars.com/api/name=Yasmine&background=00FF00',
+          timestamp: new Date(),
+          text: 'Great! 🎉',
+          likes: 0,
+          currentUserLiked: false,
+          replies: [],
+        }
+      ],
     },
   ]);
 
