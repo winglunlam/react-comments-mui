@@ -31,15 +31,20 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-  externals: {
-    react: 'react',
-    'react-dom': 'react-dom',
-    '@mui/material': '@mui/material',
-    '@mui/icons-material': '@mui/icons-material',
-    '@mui/system': '@mui/system',
-    '@emotion/react': '@emotion/react',
-    '@emotion/styled': '@emotion/styled',
-    'emoji-picker-react': 'emoji-picker-react'
-  },
+  externals: [
+    ({ request }, callback) => {
+      // Regex to match any import starting with these package names
+      if (
+        /^@mui\//.test(request) || 
+        /^@emotion\//.test(request) || 
+        /^react($|\/)/.test(request) || 
+        /^react-dom($|\/)/.test(request) ||
+        /^emoji-picker-react/.test(request)
+      ) {
+        return callback(null, `commonjs ${request}`);
+      }
+      callback();
+    },
+  ],
   devtool: false,
 };

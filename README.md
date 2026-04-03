@@ -9,7 +9,7 @@ A modern, customizable comment section component for React using Material-UI (MU
 Before installing `react-comments-mui`, make sure you have the required peer dependencies installed:
 
 ```bash
-npm install react react-dom @mui/material @mui/icons-material @emotion/react @emotion/styled emoji-picker-react
+npm install @mui/material @mui/icons-material @emotion/react @emotion/styled emoji-picker-react
 ```
 
 ### Install the Plugin
